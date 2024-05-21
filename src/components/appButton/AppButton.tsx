@@ -9,12 +9,13 @@ interface AppButtonProps {
   disabled: boolean;
   navigation?: any; 
   route?: string; 
+  isDarkTheme: boolean;
 }
 
-export default function AppButton({ text, action }: AppButtonProps) {
+export default function AppButton({ text, action, isDarkTheme }: AppButtonProps) {
   return (
-    <Pressable onPress={action} style={styles.container}>
-      <Text style={styles.text}>{text}</Text>
+    <Pressable onPress={action} style={[styles.container, isDarkTheme ? styles.darkButton : styles.lightButton]}>
+      <Text style={[styles.text, isDarkTheme ? styles.darkButton : styles.lightButton]}>{text}</Text>
     </Pressable>
   );
 }

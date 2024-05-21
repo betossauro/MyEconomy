@@ -2,17 +2,16 @@ import { StyleSheet } from "react-native";
 import Colors from '../../constant/Colors';
 
 export const styles = StyleSheet.create({
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    textAlign: "center",
-    paddingBottom: 20,
+  label: {
+    marginBottom: 10,
+    textAlign: "left",
+    alignSelf: "flex-start",
+    fontWeight: "bold"
   },
-  darkTitle: {
+  darkLabel: {
     color: Colors.fontDark,
   },
-  lightTitle: {
+  lightLabel: {
     color: Colors.fontLight,
   },
 });

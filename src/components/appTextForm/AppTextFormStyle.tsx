@@ -1,15 +1,23 @@
 import { StyleSheet } from "react-native";
+import Colors from '../../constant/Colors';
 
 export const styles = StyleSheet.create({
   input: {
-    backgroundColor: "#f2f2f2",
     width: "100%",
-    borderRadius: 4,
-    borderColor: "#0072BB",
+    borderRadius: 8,
     borderWidth: 1,
     paddingVertical: 8,
     paddingHorizontal: 8,
     fontSize: 16,
-    color: "black",
+  },
+  darkInput: {
+    backgroundColor: Colors.bgInputDark,
+    borderColor: Colors.fontDark,
+    color: Colors.fontDark,
+  },
+  lightInput: {
+    backgroundColor: Colors.bgInputLight,
+    borderColor: Colors.fontLight,
+    color: Colors.fontLight,
   },
 });

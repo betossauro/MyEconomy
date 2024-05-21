@@ -1,9 +1,10 @@
-import { View, Text, Button, Alert } from "react-native";
+import { View, Text, useColorScheme , Alert } from "react-native";
 import { styles } from "./SigninStyle";
 
 import AppTitle from "../../components/appTitle/AppTitle";
 import AppTextForm from "../../components/appTextForm/AppTextForm";
 import AppLink from "../../components/appLink/AppLink";
+import Colors from "../../constant/Colors";
 
 import React, { useState } from "react";
 import AppTextFormPassword from "../../components/appTextForm/AppTextFormPassword";
@@ -11,10 +12,13 @@ import AppButton from "../../components/appButton/AppButton";
 // import { setLocalStorageItem } from "../../utils/localStorage";
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppLabel from "../../components/appLabel/AppLabel";
 
 export default function Signin({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const theme = useColorScheme();
+  const isDarkTheme = theme === 'dark';
 
   const handleSignin = async (email: string, password: string) => {
     try {
@@ -33,33 +37,33 @@ export default function Signin({ navigation }) {
   const isButtonDisabled = !email || !password;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, isDarkTheme
+      ? { backgroundColor: Colors.bgDark }
+      : { backgroundColor: Colors.bgLight }]}>
       <View>
-        <AppTitle text="sign in" />
+        <AppTitle text="Entrar" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.labelContainer}>
-        <Text style={styles.label}>Email</Text>
+        <AppLabel text="Email" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextForm
-          value={email} onChangeText={setEmail} placeholder="nome@email.com"
-        />
+          value={email} onChangeText={setEmail} placeholder="nome@email.com" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.labelContainer}>
-        <Text style={styles.label}>Senha</Text>
+        <AppLabel text="Senha" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextFormPassword
-          value={password}  onChangeText={setPassword} placeholder="Digite sua senha"
+          value={password}  onChangeText={setPassword} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}
         />
-      <AppLink navigation={navigation} route="Signup" text="Não possui conta? Crie agora." />
+      <AppLink navigation={navigation} route="Signup" text="Não possui conta? Crie agora." isDarkTheme={isDarkTheme}/>
       <AppButton
         text="Entrar"
         onPress={() => handleSignin(email, password)}
         disabled={isButtonDisabled}
+        isDarkTheme={isDarkTheme}
       />
-      </View>
-      <View style={styles.buttons}>
       </View>
     </View>
   );

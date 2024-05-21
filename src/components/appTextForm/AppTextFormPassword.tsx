@@ -7,6 +7,7 @@ interface AppTextFormPaswordProps {
   placeholder?: string;
   editable?: boolean;
   onChangeText?: (text: string) => void;
+  isDarkTheme: boolean;
 }
 
 export default function AppTextFormPasword({
@@ -14,6 +15,7 @@ export default function AppTextFormPasword({
   value,
   editable = true,
   onChangeText,
+  isDarkTheme
 }: AppTextFormPaswordProps) {
   return (
     <TextInput
@@ -22,7 +24,7 @@ export default function AppTextFormPasword({
       editable={editable}
       placeholderTextColor="gray"
       secureTextEntry={true}
-      style={styles.input}
+      style={[styles.input, isDarkTheme ? styles.darkInput : styles.lightInput]}
       onChangeText={onChangeText}
     />
   );

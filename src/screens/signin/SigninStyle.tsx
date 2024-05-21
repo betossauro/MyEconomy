@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import Colors from "../../constant/Colors";
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,17 +11,17 @@ export const styles = StyleSheet.create({
     alignSelf: "stretch",
     paddingStart: "10%",
   },
-  label: {
-    color: "black",
-    fontSize: 16,
-    marginBottom: 10,
-    textAlign: "left",
-    alignSelf: "flex-start",
-  },
+  
   buttons: {
     width: "80%",
     gap: 6,
     alignItems: "center",
     paddingBottom: 20,
+  },
+  darkLabel: {
+    color: Colors.fontDark,
+  },
+  lightLabel: {
+    color: Colors.fontLight,
   },
 });

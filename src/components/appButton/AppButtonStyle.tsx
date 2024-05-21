@@ -1,14 +1,14 @@
 import { StyleSheet } from "react-native";
+import Colors from "../../constant/Colors";
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#0072BB",
-    width: "100%",
-    borderRadius: 4,
-    borderColor: "#0072BB",
+    width: "80%",
+    borderRadius: 8,
     borderWidth: 1,
-    paddingVertical: 10,
+    paddingVertical: 12,
     paddingHorizontal: 8,
+    marginTop: 40
   },
   text: {
     fontSize: 14,
@@ -16,5 +16,15 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     textTransform: "uppercase",
+  },
+  darkButton: {
+    backgroundColor: Colors.mainDark,
+    borderColor: Colors.mainDark,
+    color: Colors.fontLight
+  },
+  lightButton: {
+    backgroundColor: Colors.mainLight,
+    borderColor: Colors.mainLight,
+    color: Colors.fontDark
   },
 });

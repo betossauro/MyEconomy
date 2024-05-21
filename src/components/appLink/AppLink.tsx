@@ -7,15 +7,16 @@ interface AppLinkProps {
   route: string;
   navigation: any;
   onPress?: (event: GestureResponderEvent) => void; 
+  isDarkTheme: boolean;
 }
 
-export default function AppLink({ text, route, navigation, onPress }: AppLinkProps) {
+export default function AppLink({ text, route, navigation, onPress, isDarkTheme }: AppLinkProps) {
   const changeRoute = () => {
     navigation.navigate(route);
   };
 
   return (
-    <Text onPress={onPress || changeRoute} style={styles.link}>
+    <Text onPress={onPress || changeRoute} style={[styles.link, isDarkTheme ? styles.darkLink : styles.lightLink]}>
       {text}
     </Text>
   );

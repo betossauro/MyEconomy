@@ -1,4 +1,4 @@
-import { View, Text, Button, Alert } from "react-native";
+import { View, Text, Button, Alert, useColorScheme } from "react-native";
 import { styles } from "./SignupStyle";
 import AppTitle from "../../components/appTitle/AppTitle";
 import AppTextForm from "../../components/appTextForm/AppTextForm";
@@ -6,6 +6,9 @@ import AppTextFormPassword from "../../components/appTextForm/AppTextFormPasswor
 import AppButton from "../../components/appButton/AppButton";
 import React, { useState } from "react";
 import axios from 'axios';
+import Colors from "../../constant/Colors";
+import AppLabel from "../../components/appLabel/AppLabel";
+import AppTextFormDate from "../../components/appTextForm/AppTextFormDate";
 
 export default function Signup({ navigation }) {
   const [nome, setNome] = useState("");
@@ -13,6 +16,9 @@ export default function Signup({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
+
+  const theme = useColorScheme();
+  const isDarkTheme = theme === 'dark';
 
   const handleSignup = async () => {
     if (password !== confirmPassword) {
@@ -35,52 +41,49 @@ export default function Signup({ navigation }) {
 
   const isButtonDisabled = !nome || !email || !password || !confirmPassword;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, isDarkTheme
+      ? { backgroundColor: Colors.bgDark }
+      : { backgroundColor: Colors.bgLight }]}>
       <View>
-        <AppTitle text="sign up" />
+        <AppTitle text="Cadastro" isDarkTheme={isDarkTheme} />
       </View>
       <View style={styles.labelContainer}>
-        <Text style={styles.label}>Nome</Text>
+        <AppLabel text="Nome" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextForm
-          value={nome} onChangeText={setNome} placeholder="Digite seu nome" 
-        />
+          value={nome} onChangeText={setNome} placeholder="Digite seu nome" isDarkTheme={isDarkTheme}        />
       </View>
       <View style={styles.labelContainer}>
-        <Text style={styles.label}>Email</Text>
+        <AppLabel text="Email" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextForm
-          value={email} onChangeText={setEmail} placeholder="nome@email.com"
-        />
+          value={email} onChangeText={setEmail} placeholder="nome@email.com" isDarkTheme={isDarkTheme}        />
       </View>
       <View style={styles.labelContainer}>
-        <Text style={styles.label}>Data de nascimento</Text>
+        <AppLabel text="Data de nascimento" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
-        <AppTextForm
-          value={dataNascimento} onChangeText={setDataNascimento} placeholder="dd/mm/aaaa"
-        />
+        <AppTextFormDate
+          value={dataNascimento} onChangeText={setDataNascimento} placeholder="dd/mm/aaaa" isDarkTheme={isDarkTheme}        />
       </View>
       <View style={styles.labelContainer}>
-        <Text style={styles.label}>Senha</Text>
+        <AppLabel text="Senha" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextFormPassword
-          value={password} onChangeText={setPassword} placeholder="Digite sua senha"
-        />
+          value={password} onChangeText={setPassword} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}        />
       </View>
       <View style={styles.labelContainer}>
-        <Text style={styles.label}>Confirme Senha</Text>
+        <AppLabel text="Confirme Senha" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextFormPassword
-          value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirme sua senha"
-        />
+          value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirme sua senha" isDarkTheme={isDarkTheme}        />
       </View>
-        <AppButton text="Registrar" onPress={handleSignup} navigation={navigation} route="Signin" disabled={isButtonDisabled} ></AppButton>
       <View style={styles.buttons}>
+        <AppButton text="Registrar" onPress={handleSignup} navigation={navigation} route="Signin" disabled={isButtonDisabled} isDarkTheme={isDarkTheme} ></AppButton>
       </View>
     </View>
   );

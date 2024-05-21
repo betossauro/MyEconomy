@@ -1,30 +1,29 @@
-import { TextInput } from "react-native";
 import { styles } from "./AppTextFormStyle";
-import React from "react";
+import React, { useState } from 'react';
+import MaskInput, { Masks } from 'react-native-mask-input';
 
 interface AppTextFormProps {
-  value?: string;
-  placeholder?: string;
-  editable?: boolean;
-  onChangeText?: (text: string) => void;
   isDarkTheme: boolean;
+  value: string;
+  placeholder?: string;
+  onChangeText: (text: string) => void;
+  mask?: typeof Masks;
 }
 
-export default function AppTextForm({
+export default function AppTextFormDate({
   placeholder,
   value,
-  editable = true,
   onChangeText,
-  isDarkTheme
+  isDarkTheme,
 }: AppTextFormProps) {
   return (
-    <TextInput
+    <MaskInput
       placeholder={placeholder}
       value={value}
-      editable={editable}
       placeholderTextColor="gray"
       style={[styles.input, isDarkTheme ? styles.darkInput : styles.lightInput]}
       onChangeText={onChangeText}
+      mask={Masks.DATE_DDMMYYYY}
     />
   );
 }
