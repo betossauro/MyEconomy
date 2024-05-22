@@ -4,12 +4,11 @@ import Sizes from "../../constant/Sizes";
 
 export const styles = StyleSheet.create({
   title: {
-    fontSize: Sizes.title,
-    fontWeight: "bold",
-    textTransform: "uppercase",
+    fontSize: Sizes.text,
     justifyContent: "flex-start",
     textAlign: "center",
     paddingBottom: 40,
+    paddingLeft: 10
   },
   darkTitle: {
     color: Colors.fontDark,

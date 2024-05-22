@@ -83,7 +83,7 @@ export default function Signup({ navigation }) {
           value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirme sua senha" isDarkTheme={isDarkTheme}        />
       </View>
       <View style={styles.buttons}>
-        <AppButton text="Registrar" onPress={handleSignup} navigation={navigation} route="Signin" disabled={isButtonDisabled} isDarkTheme={isDarkTheme} ></AppButton>
+        <AppButton text="Cadastrar" onPress={handleSignup} navigation={navigation} route="Signin" disabled={isButtonDisabled} isDarkTheme={isDarkTheme} ></AppButton>
       </View>
     </View>
   );

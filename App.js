@@ -27,7 +27,7 @@ export default function App() {
           name="Signup"
           component={Signup}
           options={({ route }) => ({ 
-            title: "Cadastro",
+            title: "",
             headerStyle: {
               backgroundColor: isDarkTheme ? Colors.bgDark : Colors.bgLight,
             },
@@ -35,17 +35,25 @@ export default function App() {
             headerShadowVisible: false,
           })}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Home"
           component={Home}
-          options={{ title: "Home" }}
+          options={({ route }) => ({ 
+            title: "",
+            headerStyle: {
+              backgroundColor: isDarkTheme ? Colors.bgDark : Colors.bgLight,
+            },
+            headerTintColor: isDarkTheme ? Colors.fontDark : Colors.fontLight,
+            headerShadowVisible: false,
+            headerLeft: () => false
+          })}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Expense"
           component={Expense}
           options={{ title: "Expense" }}
-        />
-        <Stack.Screen
+        /> */}
+        {/* <Stack.Screen
           name="Limit"
           component={Limit}
           options={{ title: "Limit" }}
