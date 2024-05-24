@@ -4,14 +4,14 @@ export const styles = StyleSheet.create({
     container: { 
       flexDirection: 'row', 
       width: '100%',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       justifyContent: 'space-between', 
       paddingHorizontal: 30,
     },
     image: {
-      width: 50, 
-      height: 50, 
-      borderRadius: 25,
-      marginBottom: 30
+      width: 32, 
+      height: 32, 
+      borderRadius: 16,
+      padding: 16,
     }
 });

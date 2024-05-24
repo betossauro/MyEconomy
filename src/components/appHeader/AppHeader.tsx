@@ -1,19 +1,20 @@
 import React from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import AppTitleMain from '../appTitle/AppTitleMain';
-import AppSubtitle from '..//appSubtitle/AppSubtitle';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './AppHeaderStyle';
+import Colors from '../../constant/Colors';
 
 interface AppHeaderProps {
   nome: string;
   isDarkTheme: boolean;
-  avatar: any;
+  avatar?: any;
   navigation?: any; 
-  route?: string; 
+  route?: string;
+  showAvatar?: boolean; // Add this line
 }
 
-export default function AppHeader({ nome, avatar, route, navigation, isDarkTheme }: AppHeaderProps) {
+export default function AppHeader({ nome, avatar, route, navigation, isDarkTheme, showAvatar = true }: AppHeaderProps) {
   const changeRoute = () => {
     navigation.navigate(route);
   };
@@ -21,15 +22,19 @@ export default function AppHeader({ nome, avatar, route, navigation, isDarkTheme
   return (
     <View style={styles.container}>
       <View>
-        <AppTitleMain text={`Olá ${nome} 👋`} isDarkTheme={isDarkTheme} />
-        <AppSubtitle text={"É bom te ver por aqui!"} isDarkTheme={isDarkTheme} />
+        <AppTitleMain text={`${nome}`} isDarkTheme={isDarkTheme} />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-        <Image
-          source={ avatar }
-          style={styles.image}
+      {showAvatar && (
+        <View style={{
+          width: 50, height: 50, borderRadius: 25, backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight,
+          justifyContent: 'center', alignItems: 'center'
+        }}>
+          <Image
+            source={ avatar }
+            style={styles.image}
           />
-      </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };

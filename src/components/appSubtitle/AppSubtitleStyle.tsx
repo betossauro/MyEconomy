@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-start",
     textAlign: "center",
     paddingBottom: 40,
-    paddingLeft: 10
   },
   darkTitle: {
     color: Colors.fontDark,

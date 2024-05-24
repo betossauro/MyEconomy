@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     paddingVertical: 16,
     paddingHorizontal: 8,
-    marginTop: 20
+    marginTop: 40
   },
   text: {
     fontSize: Sizes.text,

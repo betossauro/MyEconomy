@@ -52,35 +52,35 @@ export default function Signup({ navigation }) {
       </View>
       <View style={styles.buttons}>
         <AppTextForm
-          value={nome} onChangeText={setNome} placeholder="Digite seu nome" isDarkTheme={isDarkTheme}        />
+          value={nome} onChangeText={setNome} placeholder="Digite seu nome" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Email" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextForm
-          value={email} onChangeText={setEmail} placeholder="nome@email.com" isDarkTheme={isDarkTheme}        />
+          value={email} onChangeText={setEmail} placeholder="nome@email.com" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Data de nascimento" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextFormDate
-          value={dataNascimento} onChangeText={setDataNascimento} placeholder="dd/mm/aaaa" isDarkTheme={isDarkTheme}        />
+          value={dataNascimento} onChangeText={setDataNascimento} placeholder="dd/mm/aaaa" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Senha" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextFormPassword
-          value={password} onChangeText={setPassword} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}        />
+          value={password} onChangeText={setPassword} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Confirme Senha" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextFormPassword
-          value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirme sua senha" isDarkTheme={isDarkTheme}        />
+          value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirme sua senha" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.buttons}>
         <AppButton text="Cadastrar" onPress={handleSignup} navigation={navigation} route="Signin" disabled={isButtonDisabled} isDarkTheme={isDarkTheme} ></AppButton>
