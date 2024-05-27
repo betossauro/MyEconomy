@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import Sizes from "../../constant/Sizes";
+import Colors from "../../constant/Colors";
 
 export const styles = StyleSheet.create({
   parentContainer: {
@@ -23,5 +24,15 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontSize: Sizes.text
-  }
+  },
+  darkInput: {
+    backgroundColor: Colors.bgInputDark,
+    borderColor: Colors.fontDark,
+    color: Colors.fontDark,
+  },
+  lightInput: {
+    backgroundColor: Colors.bgInputLight,
+    borderColor: Colors.fontLight,
+    color: Colors.fontLight,
+  },
 });

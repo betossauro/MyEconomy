@@ -10,13 +10,12 @@ import AppLabel from "../../components/appLabel/AppLabel";
 import AppTextForm from "../../components/appTextForm/AppTextForm";
 import AppMonthSelector from "../../components/appMonthSelector/AppMonthSelector";
 import AppButton from "../../components/appButton/AppButton";
+import { useTheme } from '../../ThemeContext';
 
 export default function Expense({ navigation }) {
+  const { isDarkTheme } = useTheme();
   const [nome, setNome] = useState("");
   const [valor, setValor] = useState("");
-  
-  const theme = useColorScheme();
-  const isDarkTheme = theme === 'dark';
 
   return (
     <View style={[styles.container, isDarkTheme
@@ -42,7 +41,7 @@ export default function Expense({ navigation }) {
       <View style={styles.labelContainer}>
         <AppLabel text="Mês" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
-      <AppMonthSelector></AppMonthSelector>
+      <AppMonthSelector isDarkTheme={isDarkTheme}></AppMonthSelector>
       <View style={[styles.buttons, styles.margin]}>
         <AppButton text="Registrar" navigation={navigation} route="Signin" isDarkTheme={isDarkTheme} ></AppButton>
         <AppButton text="Histórico" navigation={navigation} route="Signin" isDarkTheme={isDarkTheme} ></AppButton>

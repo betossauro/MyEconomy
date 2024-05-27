@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { View, SafeAreaView, Text, TouchableOpacity, useColorScheme } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import MonthPicker from 'react-native-month-year-picker';
-import moment from 'moment';
 import Colors from '../../constant/Colors';
 import { styles } from './AppMonthSelectorStyle';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -13,6 +12,7 @@ interface AppMonthSelectorProps {
   locale?: string;
   color?: string;
   size?: string;
+  isDarkTheme: boolean;
 }
 
 export default function AppMonthSelector({
@@ -20,6 +20,7 @@ export default function AppMonthSelector({
   minimumDate = new Date(),
   maximumDate = new Date(2025, 5),
   locale = 'br',
+  isDarkTheme,
 }: AppMonthSelectorProps) {
   const [date, setDate] = useState(initialDate);
   const [show, setShow] = useState(false);
@@ -35,22 +36,17 @@ export default function AppMonthSelector({
     [date, showPicker],
   );
 
-  const theme = useColorScheme();
-  const isDarkTheme = theme === 'dark';
-
   return (
     <View style={styles.parentContainer}>
-      <View style={[styles.container, isDarkTheme
-        ? { backgroundColor: Colors.bgDark }
-        : { backgroundColor: Colors.bgLight }]}>
-        <View style={styles.input}>
-        <TouchableOpacity 
-          onPress={() => showPicker(true)}
-          style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}
-        >
-          <Text style={[styles.text, { color: isDarkTheme ? Colors.fontDark : Colors.fontLight }]}>Selecione o mês</Text>
-          <Icon name="caret-down" color={isDarkTheme ? Colors.fontDark : Colors.fontLight} size={24} />
-        </TouchableOpacity>
+      <View style={[styles.container, isDarkTheme ? { backgroundColor: Colors.bgDark } : { backgroundColor: Colors.bgLight }]}>
+        <View style={[styles.input, isDarkTheme ? styles.darkInput : styles.lightInput]}>
+          <TouchableOpacity 
+            onPress={() => showPicker(true)}
+            style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}
+          >
+            <Text style={[styles.text, { color: isDarkTheme ? Colors.fontDark : Colors.fontLight }]}>Selecione o mês</Text>
+            <Icon name="caret-down" color={isDarkTheme ? Colors.fontDark : Colors.fontLight} size={24} />
+          </TouchableOpacity>
           {show && (
             <MonthPicker
               onChange={onValueChange}
