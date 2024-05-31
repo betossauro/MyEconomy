@@ -28,16 +28,15 @@ export default function Signup({ navigation }) {
     }
 
     try {
-      console.log(dataNascimento)
-      // await cadastrar(nome, dataNascimento, email, senha, confirmacaoSenha);
-      // navigation.navigate('Signin');
+      await cadastrar(nome, dataNascimento, email, senha, confirmacaoSenha);
+      navigation.navigate('Signin');
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível cadastrar o usuário');
     }
   };
 
   const handleChangeDataNascimento = (dataSelecionada) => {
-    setDataNascimento(dataSelecionada.toLocaleString());
+    setDataNascimento(dataSelecionada);
   }
 
   const isButtonDisabled = !nome || !email || !senha || !confirmacaoSenha;

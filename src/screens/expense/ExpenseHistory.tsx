@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ScrollView, TouchableOpacity, View, useColorScheme, Text } from "react-native";
+import { ScrollView, TouchableOpacity, View, Dimensions, Text } from "react-native";
 import AppHeader from "../../components/appHeader/AppHeader";
 import avatar from '../../../assets/avatar.png';
 import Colors from "../../constant/Colors";
@@ -13,10 +13,24 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default function ExpenseHistory({ navigation }) {
   const { isDarkTheme } = useTheme();
   const [date, setDate] = useState(new Date());
+  const screenHeight = Dimensions.get('window').height;
+  const maxHeight = screenHeight * 0.67; 
    // const [items, setItems] = useState([]);
    const [items] = useState([
-    { name: 'Ifood', amount: 20.00 },
-    { name: 'Uber', amount: 12 }
+    { name: 'Ifood', amount: 20 },
+    { name: 'Uber', amount: 12 },
+    { name: 'Ifood', amount: 20 },
+    { name: 'Uber', amount: 12 },
+    { name: 'Ifood', amount: 20 },
+    { name: 'Uber', amount: 12 },
+    { name: 'Ifood', amount: 20 },
+    { name: 'Uber', amount: 12 },
+    { name: 'Ifood', amount: 20 },
+    { name: 'Uber', amount: 12 },
+    { name: 'Ifood', amount: 20 },
+    { name: 'Uber', amount: 12 },
+    { name: 'Ifood', amount: 20 },
+    { name: 'Uber', amount: 12 },
   ]);
 
   // useEffect(() => {
@@ -50,7 +64,7 @@ export default function ExpenseHistory({ navigation }) {
       <View style={styles.buttons}>
         <AppTextFormDate
           value={date} onChange={setDate} isDarkTheme={isDarkTheme}/>
-          <ScrollView style={styles.itemContainer}>
+          <ScrollView style={[styles.itemContainer, { maxHeight: maxHeight}]}>
           {items.map((item, index) => (
             <View key={index} style={[styles.item, {backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight, justifyContent: 'space-between', alignItems: 'center', }]}>
               <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{item.name}</Text>

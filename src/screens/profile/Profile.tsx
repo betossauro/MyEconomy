@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import AppHeader from "../../components/appHeader/AppHeader";
 import Colors from "../../constant/Colors";
@@ -6,9 +6,26 @@ import { styles } from "./ProfileStyle";
 import AppButton from "../../components/appButton/AppButton";
 import AppLabel from "../../components/appLabel/AppLabel";
 import { useTheme } from '../../ThemeContext';
+import { buscar } from "../../services/usuario/UsuarioService";
+
+interface Usuario {
+  nome: string,
+  email: string,
+  dataNascimento: string
+}
 
 export default function Profile({ navigation }) {
   const { isDarkTheme } = useTheme();
+  const [ usuario, setUsuario ] = useState<Usuario | null>();
+
+  useEffect(() => {
+    const fetchUsuario = async () => {
+      const response = await buscar();
+      setUsuario(response.data);
+    };
+
+    fetchUsuario();
+  }, []);
   
     return (
       <View style={[styles.container, isDarkTheme
@@ -21,19 +38,19 @@ export default function Profile({ navigation }) {
           <AppLabel text="Nome" isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
-          <AppLabel text="$nome" isDarkTheme={isDarkTheme}></AppLabel>
+          <AppLabel text={usuario ? usuario.nome : ""} isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
           <AppLabel text="Email" isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
-          <AppLabel text="$email" isDarkTheme={isDarkTheme}></AppLabel>
+          <AppLabel text={usuario ? usuario.email : ""} isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
           <AppLabel text="Data de nascimento" isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
-          <AppLabel text="$datanascimento" isDarkTheme={isDarkTheme}></AppLabel>
+          <AppLabel text={usuario ? usuario.dataNascimento : ""} isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={[styles.buttons, styles.margin]}>
           <AppButton text="Sair" navigation={navigation} route="Signin" isDarkTheme={isDarkTheme} ></AppButton>
