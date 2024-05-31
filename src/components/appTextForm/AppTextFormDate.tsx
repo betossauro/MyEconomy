@@ -37,7 +37,7 @@ export default function AppTextFormDate({
     if (format === 'monthYear') {
       dateString = `${monthNames[date.getMonth()]}/${date.getFullYear()}`;
     } else {
-      dateString = date.toLocaleDateString();
+      dateString = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     }
   } else {
     dateString = 'Selecione uma data';

@@ -9,37 +9,38 @@ import axios from 'axios';
 import Colors from "../../constant/Colors";
 import AppLabel from "../../components/appLabel/AppLabel";
 import AppTextFormDate from "../../components/appTextForm/AppTextFormDate";
+import { cadastrar } from "../../services/usuario/UsuarioService";
 
 export default function Signup({ navigation }) {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [dataNascimento, setDataNascimento] = useState(new Date());
+  const [senha, setSenha] = useState("");
+  const [confirmacaoSenha, setConfirmacaoSenha] = useState("");
+  const [dataNascimento, setDataNascimento] = useState(new Date);
 
   const theme = useColorScheme();
   const isDarkTheme = theme === 'dark';
 
   const handleSignup = async () => {
-    if (password !== confirmPassword) {
+    if (senha !== confirmacaoSenha) {
       Alert.alert('Erro', 'As senhas não coincidem');
       return;
     }
 
     try {
-      await axios.post('http://localhost:3000/api/signup', {
-        nome,
-        email,
-        password,
-        confirmPassword
-      });
-      navigation.navigate('Signin');
+      console.log(dataNascimento)
+      // await cadastrar(nome, dataNascimento, email, senha, confirmacaoSenha);
+      // navigation.navigate('Signin');
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível cadastrar o usuário');
     }
   };
 
-  const isButtonDisabled = !nome || !email || !password || !confirmPassword;
+  const handleChangeDataNascimento = (dataSelecionada) => {
+    setDataNascimento(dataSelecionada.toLocaleString());
+  }
+
+  const isButtonDisabled = !nome || !email || !senha || !confirmacaoSenha;
   return (
     <View style={[styles.container, isDarkTheme
       ? { backgroundColor: Colors.bgDark }
@@ -66,21 +67,21 @@ export default function Signup({ navigation }) {
       </View>
       <View style={styles.buttons}>
         <AppTextFormDate
-          value={dataNascimento} onChange={setDataNascimento} isDarkTheme={isDarkTheme} format='fullDate'/>
+          value={dataNascimento} onChange={handleChangeDataNascimento} isDarkTheme={isDarkTheme} format='fullDate'/>
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Senha" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextFormPassword
-          value={password} onChangeText={setPassword} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}/>
+          value={senha} onChangeText={setSenha} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Confirme Senha" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextFormPassword
-          value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirme sua senha" isDarkTheme={isDarkTheme}/>
+          value={confirmacaoSenha} onChangeText={setConfirmacaoSenha} placeholder="Confirme sua senha" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.buttons}>
         <AppButton text="Cadastrar" onPress={handleSignup} navigation={navigation} route="Signin" disabled={isButtonDisabled} isDarkTheme={isDarkTheme} ></AppButton>
