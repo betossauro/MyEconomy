@@ -21,18 +21,12 @@ export default function Signin({ navigation }) {
   const theme = useColorScheme();
   const isDarkTheme = theme === 'dark';
 
-  const handleSignin = async (email: string, senha: string) => {
+  const handleSignin = async () => {
     try {
       await autenticar(email, senha);
       navigation.navigate('Home');
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // Handle validation errors here
-        Alert.alert('Erro', 'E-mail ou senha inválidos');
-      } else {
-        // Handle other errors here
-        Alert.alert('Erro', 'Ocorreu um erro. Por favor, tente novamente mais tarde');
-      }
+      Alert.alert('Erro', 'E-mail ou senha inválidos');
     }
   };
 
@@ -65,7 +59,7 @@ export default function Signin({ navigation }) {
           text="Entrar"
           navigation={navigation}
           route="Home"
-          onPress={() => handleSignin(email, senha)}
+          onPress={() => handleSignin()}
           disabled={isButtonDisabled}
           isDarkTheme={isDarkTheme}
         />
