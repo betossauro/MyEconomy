@@ -1,12 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const API_URL = 'http://192.168.1.10:3000';
+const API_URL = 'http://192.168.0.102:3000';
 
 // faz req para retornar as tarefas do banco. Retorna array com objetos
-export const autenticar = async (usuario: {email: string, senha: string}) => {
+export const autenticar = async (email: string, senha: string) => {
   await axios.post(`${API_URL}/signin`, {
-    usuario
+    email,
+    senha
   })
   .then(function (response) {
     const { token, nomeUsuario } = response.data;

@@ -22,11 +22,18 @@ export default function Signin({ navigation }) {
   const isDarkTheme = theme === 'dark';
 
   const handleSignin = async (email: string, senha: string) => {
-    await autenticar({email, senha}).then((res) => {
+    try {
+      await autenticar(email, senha);
       navigation.navigate('Home');
-    }).catch(() => {
-      Alert.alert('Erro', 'E-mail ou senha incorretos');
-    })
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        // Handle validation errors here
+        Alert.alert('Erro', 'E-mail ou senha inválidos');
+      } else {
+        // Handle other errors here
+        Alert.alert('Erro', 'Ocorreu um erro. Por favor, tente novamente mais tarde');
+      }
+    }
   };
 
   const isButtonDisabled = email != "" || senha != "";
