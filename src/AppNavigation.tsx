@@ -10,6 +10,8 @@ import Limit from "./screens/limit/Limit";
 import Profile from "./screens/profile/Profile";
 import Colors from "./constant/Colors";
 import { Ionicons } from '@expo/vector-icons';
+import ExpenseHistory from './screens/expense/ExpenseHistory';
+import LimitHistory from './screens/limit/LimitHistory';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -97,6 +99,30 @@ export default function AppNavigation() {
       <Stack.Screen
         name="Profile"
         component={Profile}
+        options={{
+          title: "",
+          headerStyle: {
+            backgroundColor: isDarkTheme ? Colors.bgDark : Colors.bgLight,
+          },
+          headerTintColor: isDarkTheme ? Colors.fontDark : Colors.fontLight,
+          headerShadowVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="ExpenseHistory"
+        component={ExpenseHistory}
+        options={{
+          title: "",
+          headerStyle: {
+            backgroundColor: isDarkTheme ? Colors.bgDark : Colors.bgLight,
+          },
+          headerTintColor: isDarkTheme ? Colors.fontDark : Colors.fontLight,
+          headerShadowVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="LimitHistory"
+        component={LimitHistory}
         options={{
           title: "",
           headerStyle: {

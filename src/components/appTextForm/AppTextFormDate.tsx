@@ -1,29 +1,62 @@
-import { styles } from "./AppTextFormStyle";
 import React, { useState } from 'react';
-import MaskInput, { Masks } from 'react-native-mask-input';
+import { View, TouchableOpacity, Text, Platform } from 'react-native';
+import RNDateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { styles } from './AppTextFormStyle';
 
 interface AppTextFormProps {
   isDarkTheme: boolean;
-  value: string;
-  placeholder?: string;
-  onChangeText: (text: string) => void;
-  mask?: typeof Masks;
+  value: Date;
+  onChange: (date: Date) => void;
+  format?: 'monthYear' | 'fullDate';
 }
 
 export default function AppTextFormDate({
-  placeholder,
   value,
-  onChangeText,
   isDarkTheme,
+  onChange,
+  format = 'fullDate',
 }: AppTextFormProps) {
+  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(value);
+  const [dateSelected, setDateSelected] = useState(false);
+
+  const onValueChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+    setDateSelected(true);
+    onChange(currentDate);
+  };
+
+  const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+   "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+
+  let dateString;
+  if (dateSelected) {
+    if (format === 'monthYear') {
+      dateString = `${monthNames[date.getMonth()]}/${date.getFullYear()}`;
+    } else {
+      dateString = date.toLocaleDateString();
+    }
+  } else {
+    dateString = 'Selecione uma data';
+  }
+
+  const textColor = dateSelected ? (isDarkTheme ? 'white' : 'black') : 'gray';
+
   return (
-    <MaskInput
-      placeholder={placeholder}
-      value={value}
-      placeholderTextColor="gray"
-      style={[styles.input, isDarkTheme ? styles.darkInput : styles.lightInput]}
-      onChangeText={onChangeText}
-      mask={Masks.DATE_DDMMYYYY}
-    />
+    <View style={[styles.input, isDarkTheme ? styles.darkInput : styles.lightInput]}>
+      <TouchableOpacity onPress={() => setShow(true)}>
+        <Text style={[styles.inputWOBorder, isDarkTheme ? styles.darkInput : styles.lightInput, { color: textColor }]}>{dateString}</Text>
+      </TouchableOpacity>
+      {show && (
+        <RNDateTimePicker
+          mode="date"
+          value={date}
+          onChange={onValueChange}
+        />
+      )}
+    </View>
   );
 }

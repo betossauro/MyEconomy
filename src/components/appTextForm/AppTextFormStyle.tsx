@@ -10,6 +10,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
     fontSize: 16,
   },
+  inputWOBorder: {
+    width: "100%",
+    paddingVertical: 4,
+    paddingHorizontal: 4,
+    fontSize: 16,
+  },
   darkInput: {
     backgroundColor: Colors.bgInputDark,
     borderColor: Colors.fontDark,

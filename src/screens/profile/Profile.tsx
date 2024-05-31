@@ -1,17 +1,14 @@
-import React, { useState } from "react";
-import { View, useColorScheme } from "react-native";
+import React from "react";
+import { View } from "react-native";
 import AppHeader from "../../components/appHeader/AppHeader";
-import avatar from '../../../assets/avatar.png';
 import Colors from "../../constant/Colors";
-import { Card } from 'react-native-paper';
-import AppCard from "../../components/appCard/AppCard";
 import { styles } from "./ProfileStyle";
 import AppButton from "../../components/appButton/AppButton";
 import AppLabel from "../../components/appLabel/AppLabel";
+import { useTheme } from '../../ThemeContext';
 
 export default function Profile({ navigation }) {
-    const theme = useColorScheme();
-    const isDarkTheme = theme === 'dark';
+  const { isDarkTheme } = useTheme();
   
     return (
       <View style={[styles.container, isDarkTheme

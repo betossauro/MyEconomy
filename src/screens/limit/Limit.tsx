@@ -3,17 +3,16 @@ import { View, useColorScheme } from "react-native";
 import AppHeader from "../../components/appHeader/AppHeader";
 import avatar from '../../../assets/avatar.png';
 import Colors from "../../constant/Colors";
-import { Card } from 'react-native-paper';
-import AppCard from "../../components/appCard/AppCard";
 import { styles } from "./LimitStyle";
 import AppButton from "../../components/appButton/AppButton";
-import AppMonthSelector from "../../components/appMonthSelector/AppMonthSelector";
 import AppLabel from "../../components/appLabel/AppLabel";
 import AppTextForm from "../../components/appTextForm/AppTextForm";
 import { useTheme } from '../../ThemeContext';
+import AppTextFormDate from "../../components/appTextForm/AppTextFormDate";
 
-export default function Expense({ navigation }) {
+export default function Limit({ navigation }) {
   const [valor, setValor] = useState("");
+  const [date, setDate] = useState(new Date());
   const { isDarkTheme } = useTheme();
 
   return (
@@ -33,10 +32,13 @@ export default function Expense({ navigation }) {
       <View style={styles.labelContainer}>
         <AppLabel text="Mês" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
-      <AppMonthSelector isDarkTheme={isDarkTheme}></AppMonthSelector>
+      <View style={styles.buttons}>
+        <AppTextFormDate
+          value={date} onChange={setDate} isDarkTheme={isDarkTheme}/>
+      </View>
       <View style={[styles.buttons, styles.margin]}>
-        <AppButton text="Registrar" navigation={navigation} route="Signin" isDarkTheme={isDarkTheme} ></AppButton>
-        <AppButton text="Consultar" navigation={navigation} route="Signin" isDarkTheme={isDarkTheme} ></AppButton>
+        <AppButton text="Registrar" isDarkTheme={isDarkTheme} ></AppButton>
+        <AppButton text="Consultar" navigation={navigation} route="LimitHistory" isDarkTheme={isDarkTheme} ></AppButton>
       </View>
     </View>
   );

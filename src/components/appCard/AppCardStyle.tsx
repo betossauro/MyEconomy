@@ -4,19 +4,23 @@ import Sizes from "../../constant/Sizes";
 
 export const styles = StyleSheet.create({
   container: {
-    width: "80%",
-    borderRadius: 8,
-    borderWidth: 1,
-    paddingVertical: 16,
-    paddingHorizontal: 8,
-    marginTop: 40
+    width: "100%",
+    alignItems: "center"
   },
   text: {
     fontSize: Sizes.text,
     color: "white",
     textAlign: "center",
-    fontWeight: "bold",
     textTransform: "uppercase",
+    paddingBottom: 20,
+    textShadowColor: 'rgba(0, 0, 0, 0.85)',
+    textShadowOffset: { width: -1, height: 0 },
+    textShadowRadius: 20
+  },
+  emoji: {
+    paddingTop: 80,
+    fontSize: 80,
+    textAlign: "center",
   },
   darkButton: {
     backgroundColor: Colors.mainDark,

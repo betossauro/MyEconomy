@@ -28,28 +28,30 @@ export default function AppHeader({ nome, avatar, route, navigation, showAvatar 
       <View>
         <AppTitleMain text={`${nome}`} isDarkTheme={isDarkTheme} />
       </View>
-      {toggleTheme && (
-        <TouchableOpacity onPress={toggleTheme}>
-          <Icon 
-            name={isDarkTheme ? 'moon' : 'sunny'} 
-            size={24} 
-            color={isDarkTheme ? Colors.mainDark : Colors.mainLight} 
-          />
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {toggleTheme && (
+          <TouchableOpacity onPress={toggleTheme} style={{ marginRight: 40 }}>
+            <Icon 
+              name={isDarkTheme ? 'moon' : 'sunny'} 
+              size={24} 
+              color={isDarkTheme ? Colors.mainDark : Colors.mainLight} 
+            />
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          {showAvatar && (
+            <View style={{
+              width: 50, height: 50, borderRadius: 25, backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight,
+              justifyContent: 'center', alignItems: 'center'
+            }}>
+              <Image
+                source={ avatar }
+                style={styles.image}
+              />
+            </View>
+          )}
         </TouchableOpacity>
-      )}
-      <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-      {showAvatar && (
-        <View style={{
-          width: 50, height: 50, borderRadius: 25, backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight,
-          justifyContent: 'center', alignItems: 'center'
-        }}>
-          <Image
-            source={ avatar }
-            style={styles.image}
-          />
-        </View>
-      )}
-      </TouchableOpacity>
+      </View>
     </View>
-  );
+  )
 };

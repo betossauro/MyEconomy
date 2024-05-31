@@ -25,5 +25,30 @@ export const styles = StyleSheet.create({
   },
   margin: {
     marginTop: 20,
-  }
+  },
+  itemContainer: {
+    marginTop: 16,
+  },
+  item: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 6,
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  itemText: {
+    color: '#fff',
+    fontSize: 16,
+    padding: 8,
+  },
+  iconButtons: {
+    flexDirection: 'row',
+    padding: 4,
+  },
+  iconButton: {
+    marginLeft: 8,
+    padding: 8,
+    borderRadius: 8,
+  },
 });

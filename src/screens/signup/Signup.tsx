@@ -15,7 +15,7 @@ export default function Signup({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [dataNascimento, setDataNascimento] = useState("");
+  const [dataNascimento, setDataNascimento] = useState(new Date());
 
   const theme = useColorScheme();
   const isDarkTheme = theme === 'dark';
@@ -66,7 +66,7 @@ export default function Signup({ navigation }) {
       </View>
       <View style={styles.buttons}>
         <AppTextFormDate
-          value={dataNascimento} onChangeText={setDataNascimento} placeholder="dd/mm/aaaa" isDarkTheme={isDarkTheme}/>
+          value={dataNascimento} onChange={setDataNascimento} isDarkTheme={isDarkTheme} format='fullDate'/>
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Senha" isDarkTheme={isDarkTheme}></AppLabel>

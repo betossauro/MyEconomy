@@ -14,15 +14,16 @@ interface AppHeaderHomeProps {
   avatar: any;
   navigation?: any; 
   route?: string;
+  showAvatar?: boolean;
   toggleTheme?: () => void;
 }
 
-export default function AppHeaderHome({ nome, avatar, route, navigation }: AppHeaderHomeProps) {
+export default function AppHeaderHome({ nome, avatar, route, navigation, showAvatar = true }: AppHeaderHomeProps) {
   const { isDarkTheme, toggleTheme } = useTheme();
   const changeRoute = () => {
     navigation.navigate(route);
   };
-  
+
 
   return (
     <View style={styles.container}>
@@ -30,28 +31,30 @@ export default function AppHeaderHome({ nome, avatar, route, navigation }: AppHe
         <AppTitleMain text={`Olá ${nome} 👋`} isDarkTheme={isDarkTheme} />
         <AppSubtitle text={"É bom te ver por aqui!"} isDarkTheme={isDarkTheme} />
       </View>
-      {toggleTheme && (
-        <TouchableOpacity onPress={toggleTheme}>
-          <Icon 
-            name={isDarkTheme ? 'moon' : 'sunny'} 
-            size={24} 
-            color={isDarkTheme ? Colors.mainDark : Colors.mainLight} 
-          />
-        </TouchableOpacity>
-      )}
-      <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-        <View>
-          <View style={{
-            width: 50, height: 50, borderRadius: 25, backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight,
-            justifyContent: 'center', alignItems: 'center'
-          }}>
-            <Image
-              source={ avatar }
-              style={styles.image}
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {toggleTheme && (
+          <TouchableOpacity onPress={toggleTheme} style={{ marginRight: 40 }}>
+            <Icon 
+              name={isDarkTheme ? 'moon' : 'sunny'} 
+              size={24} 
+              color={isDarkTheme ? Colors.mainDark : Colors.mainLight} 
             />
-          </View>
-        </View>
-      </TouchableOpacity>
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          {showAvatar && (
+            <View style={{
+              width: 50, height: 50, borderRadius: 25, backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight,
+              justifyContent: 'center', alignItems: 'center'
+            }}>
+              <Image
+                source={ avatar }
+                style={styles.image}
+              />
+            </View>
+          )}
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
