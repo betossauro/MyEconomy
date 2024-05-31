@@ -13,28 +13,23 @@ import AppButton from "../../components/appButton/AppButton";
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppLabel from "../../components/appLabel/AppLabel";
+import { autenticar } from "../../services/usuario/UsuarioService";
 
 export default function Signin({ navigation }) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [senha, setSenha] = useState("");
   const theme = useColorScheme();
   const isDarkTheme = theme === 'dark';
 
-  // const handleSignin = async (email: string, password: string) => {
-  //   try {
-  //     const response = await axios.post('http://localhost:3000/api/signin', {
-  //       email,
-  //       password,
-  //     });
-  //     const { userId, token } = response.data;
-  //     await AsyncStorage.setItem('userToken', token);
-  //     navigation.navigate('Home', { userId });
-  //   } catch (error) {
-  //     Alert.alert('Erro', 'E-mail ou senha incorretos');
-  //   }
-  // };
+  const handleSignin = async (email: string, senha: string) => {
+    await autenticar({email, senha}).then((res) => {
+      navigation.navigate('Home');
+    }).catch(() => {
+      Alert.alert('Erro', 'E-mail ou senha incorretos');
+    })
+  };
 
-  const isButtonDisabled = email != "" || password != "";
+  const isButtonDisabled = email != "" || senha != "";
 
   return (
     <View style={[styles.container, isDarkTheme
@@ -56,17 +51,16 @@ export default function Signin({ navigation }) {
       </View>
       <View style={styles.buttons}>
         <AppTextFormPassword
-          value={password}  onChangeText={setPassword} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}
+          value={senha}  onChangeText={setSenha} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}
         />
         <AppLink navigation={navigation} route="Signup" text="Não possui conta? Crie agora." isDarkTheme={isDarkTheme}/>
         <AppButton
           text="Entrar"
           navigation={navigation}
           route="Home"
-          // onPress={() => handleSignin(email, password)}
+          onPress={() => handleSignin(email, senha)}
           disabled={isButtonDisabled}
           isDarkTheme={isDarkTheme}
-          onPress={() => navigation.navigate('Home')}
         />
       </View>
     </View>
