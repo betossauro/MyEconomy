@@ -9,7 +9,7 @@ import axios from 'axios';
 import Colors from "../../constant/Colors";
 import AppLabel from "../../components/appLabel/AppLabel";
 import AppTextFormDate from "../../components/appTextForm/AppTextFormDate";
-import { cadastrar } from "../../services/usuario/UsuarioService";
+import { cadastrar } from "../../services/UserService";
 
 export default function Signup({ navigation }) {
   const [nome, setNome] = useState("");
@@ -31,7 +31,7 @@ export default function Signup({ navigation }) {
       await cadastrar(nome, dataNascimento, email, senha, confirmacaoSenha);
       navigation.navigate('Signin');
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível cadastrar o usuário');
+      Alert.alert('Erro', error.message);
     }
   };
 
@@ -83,7 +83,7 @@ export default function Signup({ navigation }) {
           value={confirmacaoSenha} onChangeText={setConfirmacaoSenha} placeholder="Confirme sua senha" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.buttons}>
-        <AppButton text="Cadastrar" onPress={handleSignup} navigation={navigation} route="Signin" disabled={isButtonDisabled} isDarkTheme={isDarkTheme} ></AppButton>
+        <AppButton text="Cadastrar" disabled={isButtonDisabled} isDarkTheme={isDarkTheme} onPress={handleSignup}></AppButton>
       </View>
     </View>
   );

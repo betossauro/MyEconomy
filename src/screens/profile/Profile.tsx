@@ -6,26 +6,28 @@ import { styles } from "./ProfileStyle";
 import AppButton from "../../components/appButton/AppButton";
 import AppLabel from "../../components/appLabel/AppLabel";
 import { useTheme } from '../../ThemeContext';
-import { buscar } from "../../services/usuario/UsuarioService";
-
-interface Usuario {
-  nome: string,
-  email: string,
-  dataNascimento: string
-}
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Profile({ navigation }) {
   const { isDarkTheme } = useTheme();
-  const [ usuario, setUsuario ] = useState<Usuario | null>();
+  const [ nome, setNome ] = useState("");
+  const [ email, setEmail ] = useState("");
+  const [ dataNascimento, setDataNascimento ] = useState("");
 
   useEffect(() => {
     const fetchUsuario = async () => {
-      const response = await buscar();
-      setUsuario(response.data);
+      setNome(await AsyncStorage.getItem('nome'));
+      setEmail(await AsyncStorage.getItem('email'));
+      var dt = await AsyncStorage.getItem('dataNascimento').then((dt) => new Date(dt));
+      setDataNascimento(`${dt.getDate()}/${dt.getMonth() + 1}/${dt.getFullYear()}`);
     };
 
     fetchUsuario();
   }, []);
+
+  const handlePressSair = () => {
+    navigation.navigate('Signin');
+  };
   
     return (
       <View style={[styles.container, isDarkTheme
@@ -38,22 +40,22 @@ export default function Profile({ navigation }) {
           <AppLabel text="Nome" isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
-          <AppLabel text={usuario ? usuario.nome : ""} isDarkTheme={isDarkTheme}></AppLabel>
+          <AppLabel text={nome} isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
           <AppLabel text="Email" isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
-          <AppLabel text={usuario ? usuario.email : ""} isDarkTheme={isDarkTheme}></AppLabel>
+          <AppLabel text={email} isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
           <AppLabel text="Data de nascimento" isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
-          <AppLabel text={usuario ? usuario.dataNascimento : ""} isDarkTheme={isDarkTheme}></AppLabel>
+          <AppLabel text={dataNascimento} isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={[styles.buttons, styles.margin]}>
-          <AppButton text="Sair" navigation={navigation} route="Signin" isDarkTheme={isDarkTheme} ></AppButton>
+          <AppButton text="Sair" isDarkTheme={isDarkTheme} onPress={handlePressSair}></AppButton>
         </View>
       </View>
     );

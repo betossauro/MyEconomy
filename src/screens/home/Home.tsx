@@ -1,52 +1,82 @@
-import React, { useState, useEffect } from "react";
-import { View, useColorScheme } from "react-native";
-import { styles } from "./HomeStyle";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useCallback, useEffect, useState } from "react";
+import { Alert, RefreshControl, ScrollView, View } from "react-native";
 import avatar from '../../../assets/avatar.png';
-import Colors from "../../constant/Colors";
+import { useTheme } from '../../ThemeContext';
 import AppCard from "../../components/appCard/AppCard";
 import AppHeaderHome from "../../components/appHeaderHome/AppHeaderHome";
-import { useTheme } from '../../ThemeContext';
-import AppTextFormDate from "../../components/appTextForm/AppTextFormDate";
 import AppProgressBar from "../../components/appProgressBar/AppProgressBar";
+import AppTextFormDate from "../../components/appTextForm/AppTextFormDate";
+import Colors from "../../constant/Colors";
+import { progressoMes } from "../../services/LimitService";
+import { formatDate } from "../../utils/DateFormatter";
+import { styles } from "./HomeStyle";
 
 export default function Home({ navigation }) {
   const { isDarkTheme } = useTheme();
+  const [nome, setNome] = useState("");
   const [date, setDate] = useState(new Date());
   const [limite, setLimite] = useState(0);
   const [despesa, setDespesa] = useState(0);
+  const [progresso, setProgresso] = useState(0);    
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchProgresso(date)
+      .then(() => setRefreshing(false));
+  };
+
+  const fetchProgresso = async (data: Date) => {
+    const mes = formatDate(data)
+    await progressoMes(mes)
+      .then((response) => {
+        if (response.data != null) {
+          setDespesa(response.data.gasto);
+          setLimite(response.data.limite);
+          setProgresso(response.data.progresso);
+        } else {
+          Alert.alert('Aviso', 'Não foram encontrados dados para o mês selecionado');
+          setDespesa(0);
+          setLimite(0);
+          setProgresso(0);
+        }
+      })
+      .catch((error) => {
+        Alert.alert('Erro', 'Erro ao buscar progresso');
+      });
+  }
 
   useEffect(() => {
-    fetch('/limite-mes')
-      .then(response => response.json())
-      .then(data => {
-        setLimite(data.limite);
-      })
-      .catch(error => console.error(error));
-
-    fetch('/despesa')
-      .then(response => response.json())
-      .then(data => {
-        setDespesa(data.despesa);
-      })
-      .catch(error => console.error(error));
+    AsyncStorage.getItem('nome')
+      .then(nome => setNome(nome));
+    fetchProgresso(date);
   }, []);
 
-  let progressLevel = limite !== 0 ? (despesa / limite) * 100 : 0;
-  
+  const handleChangeDate = (data: Date) => {
+    setDate(data)
+    fetchProgresso(data)
+  }
+
   return (
     <View style={[styles.container, isDarkTheme
       ? { backgroundColor: Colors.bgDark }
       : { backgroundColor: Colors.bgLight }]}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 60 }}>
-        <AppHeaderHome nome="Beto" isDarkTheme={isDarkTheme} avatar={avatar} navigation={navigation}/>
+        <AppHeaderHome nome={nome} isDarkTheme={isDarkTheme} avatar={avatar} navigation={navigation} />
       </View>
-      <View style={styles.buttons}>
-        <AppTextFormDate
-          value={date} onChange={setDate} isDarkTheme={isDarkTheme} format='monthYear'/>
-      </View>
-      <AppCard progressLevel={progressLevel}/>
-      <AppProgressBar progressLevel={progressLevel/100}></AppProgressBar>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <View style={{paddingHorizontal: 16}}>
+          <View style={styles.buttons}>
+            <AppTextFormDate value={date} onChange={handleChangeDate} isDarkTheme={isDarkTheme} format='monthYear' />
+          </View>
+          <AppCard progressLevel={progresso} />
+          <AppProgressBar despesa={despesa} limite={limite} progressLevel={progresso / 100}></AppProgressBar>
+        </View>
+      </ScrollView>
     </View>
   );
 }
-  

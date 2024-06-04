@@ -1,19 +1,16 @@
-import { View, Text, useColorScheme , Alert } from "react-native";
+import { Alert, View, useColorScheme } from "react-native";
 import { styles } from "./SigninStyle";
 
-import AppTitle from "../../components/appTitle/AppTitle";
-import AppTextForm from "../../components/appTextForm/AppTextForm";
 import AppLink from "../../components/appLink/AppLink";
+import AppTextForm from "../../components/appTextForm/AppTextForm";
+import AppTitle from "../../components/appTitle/AppTitle";
 import Colors from "../../constant/Colors";
 
 import React, { useState } from "react";
-import AppTextFormPassword from "../../components/appTextForm/AppTextFormPassword";
 import AppButton from "../../components/appButton/AppButton";
-// import { setLocalStorageItem } from "../../utils/localStorage";
-import axios from 'axios';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppTextFormPassword from "../../components/appTextForm/AppTextFormPassword";
 import AppLabel from "../../components/appLabel/AppLabel";
-import { autenticar } from "../../services/usuario/UsuarioService";
+import { autenticar } from "../../services/UserService";
 
 export default function Signin({ navigation }) {
   const [email, setEmail] = useState("");
@@ -37,7 +34,7 @@ export default function Signin({ navigation }) {
       ? { backgroundColor: Colors.bgDark }
       : { backgroundColor: Colors.bgLight }]}>
       <View>
-        <AppTitle text="My Economy" isDarkTheme={isDarkTheme}/>
+        <AppTitle text="My Economy" isDarkTheme={isDarkTheme} />
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Email" isDarkTheme={isDarkTheme}></AppLabel>
@@ -52,17 +49,10 @@ export default function Signin({ navigation }) {
       </View>
       <View style={styles.buttons}>
         <AppTextFormPassword
-          value={senha}  onChangeText={setSenha} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}
+          value={senha} onChangeText={setSenha} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}
         />
-        <AppLink navigation={navigation} route="Signup" text="Não possui conta? Crie agora." isDarkTheme={isDarkTheme}/>
-        <AppButton
-          text="Entrar"
-          navigation={navigation}
-          route="Home"
-          onPress={() => handleSignin()}
-          disabled={isButtonDisabled}
-          isDarkTheme={isDarkTheme}
-        />
+        <AppLink navigation={navigation} route="Signup" text="Não possui conta? Crie agora." isDarkTheme={isDarkTheme} />
+        <AppButton text="Entrar" disabled={isButtonDisabled} isDarkTheme={isDarkTheme} onPress={handleSignin}/>
       </View>
     </View>
   );

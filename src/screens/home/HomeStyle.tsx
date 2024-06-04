@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         justifyContent: "flex-start",
     },
     buttons: {
-        width: "80%",
+        width: "100%",
         gap: 6,
         alignItems: "center",
         paddingBottom: 20,
