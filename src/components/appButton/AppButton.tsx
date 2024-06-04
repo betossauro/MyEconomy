@@ -6,18 +6,18 @@ interface AppButtonProps {
   text: string;
   onPress?: () => void; 
   disabled?: boolean;
-  navigation?: any; 
   route?: string; 
   isDarkTheme: boolean;
 }
 
-export default function AppButton({ text, route, navigation, onPress, isDarkTheme }: AppButtonProps) {
-  const changeRoute = () => {
-    navigation.navigate(route);
-  };
+export default function AppButton({ text, onPress, isDarkTheme }: AppButtonProps) {
+
+  const handlePress = () => {
+    onPress();
+  }
   
   return (
-    <Pressable onPress={onPress || changeRoute} style={[styles.container, isDarkTheme ? styles.darkButton : styles.lightButton]}>
+    <Pressable onPress={handlePress} style={[styles.container, isDarkTheme ? styles.darkButton : styles.lightButton]}>
       <Text style={[styles.text, isDarkTheme ? styles.darkButton : styles.lightButton]}>{text}</Text>
     </Pressable>
   );

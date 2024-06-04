@@ -9,9 +9,11 @@ import AppLabel from "../appLabel/AppLabel";
 
 interface AppProgressBarProps {
   progressLevel: number;
+  despesa: number;
+  limite: number;
 }
 
-export default function AppProgressBar({ progressLevel }: AppProgressBarProps) {
+export default function AppProgressBar({ progressLevel, despesa, limite }: AppProgressBarProps) {
   const { isDarkTheme } = useTheme();
   let color;
   if (progressLevel >= 0.0 && progressLevel <= 0.24) {
@@ -25,25 +27,6 @@ export default function AppProgressBar({ progressLevel }: AppProgressBarProps) {
   } else {
     color = Colors.gdProgress101;
   }
-
-  const [despesa, setDespesa] = useState(0);
-  const [limite, setLimite] = useState(0);
-
-  useEffect(() => {
-    fetch('/limite-mes')
-      .then(response => response.json())
-      .then(data => {
-        setLimite(data.limite);
-      })
-      .catch(error => console.error(error));
-  
-    fetch('/despesa')
-      .then(response => response.json())
-      .then(data => {
-        setDespesa(data.despesa);
-      })
-      .catch(error => console.error(error));
-  }, []);
 
   return (
     <View style={styles.container}>

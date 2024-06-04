@@ -28,7 +28,7 @@ export default function AppHeaderHome({ nome, avatar, route, navigation, showAva
   return (
     <View style={styles.container}>
       <View>
-        <AppTitleMain text={`Olá ${nome} 👋`} isDarkTheme={isDarkTheme} />
+        <AppTitleMain text={`Olá, ${nome} 👋`} isDarkTheme={isDarkTheme} />
         <AppSubtitle text={"É bom te ver por aqui!"} isDarkTheme={isDarkTheme} />
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>

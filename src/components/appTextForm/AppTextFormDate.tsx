@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, Platform } from 'react-native';
 import RNDateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { styles } from './AppTextFormStyle';
+import { formatDate } from '../../utils/DateFormatter';
 
 interface AppTextFormProps {
   isDarkTheme: boolean;
-  value: Date;
+  value: Date | null;
   onChange: (date: Date) => void;
   format?: 'monthYear' | 'fullDate';
 }
@@ -19,35 +20,44 @@ export default function AppTextFormDate({
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(value);
   const [dateSelected, setDateSelected] = useState(false);
+  const [dateString, setDateString] = useState("");
 
   const onValueChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
     setDate(currentDate);
     setDateSelected(true);
     onChange(currentDate);
+    setShow(false);
   };
 
-  const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-   "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-  ];
-
-  let dateString;
-  if (dateSelected) {
-    if (format === 'monthYear') {
-      dateString = `${monthNames[date.getMonth()]}/${date.getFullYear()}`;
-    } else {
-      dateString = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  const handlePress = () => {
+    if(date == null){
+      setDate(new Date());
     }
-  } else {
-    dateString = 'Selecione uma data';
+    setShow(true);
   }
+
+  useEffect(() => {
+    setDate(value);
+  }, [value]);
+
+  useEffect(() => {
+    if(date != null){
+      if (format === 'monthYear') {
+        setDateString(formatDate(date));
+      } else {
+        setDateString(`${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`);
+      }
+    } else {
+      setDateString("Selecione uma data");
+    }
+  }, [date]);
 
   const textColor = dateSelected ? (isDarkTheme ? 'white' : 'black') : 'gray';
 
   return (
     <View style={[styles.input, isDarkTheme ? styles.darkInput : styles.lightInput]}>
-      <TouchableOpacity onPress={() => setShow(true)}>
+      <TouchableOpacity onPress={handlePress}>
         <Text style={[styles.inputWOBorder, isDarkTheme ? styles.darkInput : styles.lightInput, { color: textColor }]}>{dateString}</Text>
       </TouchableOpacity>
       {show && (

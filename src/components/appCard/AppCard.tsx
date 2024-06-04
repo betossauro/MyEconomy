@@ -46,7 +46,7 @@ export default function AppCard({ progressLevel }: AppCardProps) {
 
   return (
     <View style={styles.container}>
-      <Card style={{ width: '80%' }}>
+      <Card style={{ width: '100%' }}>
         <LinearGradient colors={ gradientColors } style={{ borderRadius: 10 }}>
           <Card.Content>
             <Text variant="titleLarge"> </Text>
