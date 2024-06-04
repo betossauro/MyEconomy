@@ -1,39 +1,58 @@
-import React, { useState, useEffect, useContext } from "react";
-import { View, ScrollView, TouchableOpacity, Text, StyleSheet } from "react-native";
-import AppHeader from "../../components/appHeader/AppHeader";
+import React, { useEffect, useState } from "react";
+import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import avatar from '../../../assets/avatar.png';
-import Colors from "../../constant/Colors";
-import { styles } from "./LimitStyle";
+import { useTheme } from '../../ThemeContext';
+import AppHeader from "../../components/appHeader/AppHeader";
 import AppLabel from "../../components/appLabel/AppLabel";
 import AppTextFormDate from "../../components/appTextForm/AppTextFormDate";
-import { useTheme } from '../../ThemeContext';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Colors from "../../constant/Colors";
+import { excluirLimite, getAllLimite, getLimiteByMes } from "../../services/LimitService";
+import { formatDate } from "../../utils/DateFormatter";
+import { styles } from "./LimitStyle";
 
 export default function LimitHistory({ navigation }) {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const { isDarkTheme } = useTheme();
-  // const [items, setItems] = useState([]);
-  const [items] = useState([
-    { month: '01/2024', amount: 2000 },
-    { month: '12/2023', amount: 1250 }
-  ]);
+  const [items, setItems] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await fetch('https://api.example.com/monthly-data');
-  //     const data = await response.json();
-  //     setItems(data);
-  //   };
+  const fetchData = async () => {
+    if(date != null) {
+      const data = formatDate(date);
+      await getLimiteByMes(data)
+        .then((response) => {
+          setItems(response.data);
+        })
+        .catch((error) => {
+          Alert.alert('Aviso', 'Ocorreu um erro ao buscar os limites');
+        });
+    } else {
+      await getAllLimite()
+        .then((response) => {
+          setItems(response.data);
+        })
+        .catch((error) => {
+          Alert.alert('Aviso', 'Ocorreu um erro ao buscar os limites');
+        });
+      }
+  };
 
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, [date]);
 
   function handleEdit(item) {
-    // code to handle edit
+    navigation.navigate('Limite', {id: item.id})
   }
   
-  function handleRemove(item) {
-    // code to handle remove
+  const handleRemove = async (item) => {
+    await excluirLimite(item.id)
+    .then((response) => {
+      fetchData();
+    })
+    .catch((error) => {
+      Alert.alert('Aviso', 'Ocorreu um erro ao excluir o limite selecionado');
+    });
   }
 
   return (
@@ -48,12 +67,12 @@ export default function LimitHistory({ navigation }) {
       </View>
       <View style={styles.buttons}>
         <AppTextFormDate
-          value={date} onChange={setDate} isDarkTheme={isDarkTheme}/>
+          value={date} onChange={setDate} isDarkTheme={isDarkTheme} format={'monthYear'}/>
         <ScrollView style={styles.itemContainer}>
           {items.map((item, index) => (
             <View key={index} style={[styles.item, {backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight, justifyContent: 'space-between', alignItems: 'center', }]}>
-              <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{item.month}</Text>
-              <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{`R$${item.amount}`}</Text>
+              <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{item.mes}</Text>
+              <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{`R$${item.valor}`}</Text>
               <View style={styles.iconButtons}>
                 <TouchableOpacity style={[styles.iconButton, {backgroundColor: isDarkTheme ? Colors.inactiveDark : Colors.inactiveLight}]} onPress={() => handleEdit(item)}>
                   <Icon name="pencil" size={20} color={isDarkTheme ? Colors.fontLight : Colors.fontDark} />

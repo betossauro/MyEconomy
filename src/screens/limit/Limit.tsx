@@ -1,19 +1,86 @@
-import React, { useState } from "react";
-import { View, useColorScheme } from "react-native";
-import AppHeader from "../../components/appHeader/AppHeader";
+import React, { useEffect, useState } from "react";
+import { Alert, View } from "react-native";
 import avatar from '../../../assets/avatar.png';
-import Colors from "../../constant/Colors";
-import { styles } from "./LimitStyle";
+import { useTheme } from '../../ThemeContext';
 import AppButton from "../../components/appButton/AppButton";
+import AppHeader from "../../components/appHeader/AppHeader";
 import AppLabel from "../../components/appLabel/AppLabel";
 import AppTextForm from "../../components/appTextForm/AppTextForm";
-import { useTheme } from '../../ThemeContext';
 import AppTextFormDate from "../../components/appTextForm/AppTextFormDate";
+import Colors from "../../constant/Colors";
+import { atualizarLimite, cadastrarLimite, getLimiteById } from "../../services/LimitService";
+import { createDateFromMes, formatDate } from "../../utils/DateFormatter";
+import { styles } from "./LimitStyle";
 
-export default function Limit({ navigation }) {
+interface ExpenseProps {
+  navigation?: any;
+  route?: any;
+}
+
+export default function Limit({ navigation, route }: ExpenseProps) {
+  const [id, setId] = useState(null);
   const [valor, setValor] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date>();
   const { isDarkTheme } = useTheme();
+
+  useEffect(() => {
+    if(route && route.params != undefined){
+      setId(route.params.id);
+    }
+  }, [route]);
+
+  useEffect(() => {    
+    const fetchLimit = async () => {
+      await getLimiteById(id)
+        .then((response) => {
+          setValor(String(response.data[0].valor));
+          const dt = createDateFromMes(response.data[0].mes);
+          handleChangeDate(dt);
+        })
+      };
+
+    if(id != null){
+      fetchLimit();
+    }
+  }, [id]);
+
+  const handleChangeDate = (date: Date) => {
+    setDate(date);
+  };
+
+  const handlePressRegistrar = async () => {
+    const mes = formatDate(date);
+    
+    if(id != null){
+      await atualizarLimite(id, Number(valor), mes)
+        .then((response) => {
+          setId(null);
+          setValor("");
+          setDate(new Date());
+          Alert.alert('Sucesso', 'Limite atualizado!');
+          handlePressConsultar
+        })
+        .catch((error) => {
+          Alert.alert('Erro', error.message);
+        });
+
+    } else {
+      await cadastrarLimite(Number(valor), mes)
+        .then((response) => {
+          setValor("");
+          setDate(new Date());
+          Alert.alert('Sucesso', 'Limite cadastrado');
+          handlePressConsultar
+        })
+        .catch((error) => {
+          Alert.alert('Erro', error.message);
+        });
+    }
+  }
+
+  const handlePressConsultar = () => {
+    navigation.navigate('LimitHistory');
+  } 
 
   return (
     <View style={[styles.container, isDarkTheme
@@ -34,11 +101,11 @@ export default function Limit({ navigation }) {
       </View>
       <View style={styles.buttons}>
         <AppTextFormDate
-          value={date} onChange={setDate} isDarkTheme={isDarkTheme}/>
+          value={date} onChange={handleChangeDate} isDarkTheme={isDarkTheme} format={'monthYear'}/>
       </View>
       <View style={[styles.buttons, styles.margin]}>
-        <AppButton text="Registrar" isDarkTheme={isDarkTheme} ></AppButton>
-        <AppButton text="Consultar" navigation={navigation} route="LimitHistory" isDarkTheme={isDarkTheme} ></AppButton>
+        <AppButton text={id != null ? "Atualizar" : "Registrar"} isDarkTheme={isDarkTheme} onPress={handlePressRegistrar}></AppButton>
+        <AppButton text="Consultar" isDarkTheme={isDarkTheme} onPress={handlePressConsultar}></AppButton>
       </View>
     </View>
   );
