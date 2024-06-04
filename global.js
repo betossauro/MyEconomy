@@ -1,1 +1,1 @@
-global.api_url = 'http://192.168.1.10:3000/api';
+global.api_url = 'http://192.168.0.102:3000/api';

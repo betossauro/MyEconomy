@@ -16,7 +16,7 @@ export default function Signup({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmacaoSenha, setConfirmacaoSenha] = useState("");
-  const [dataNascimento, setDataNascimento] = useState(new Date);
+  const [dataNascimento, setDataNascimento] = useState(null);
 
   const theme = useColorScheme();
   const isDarkTheme = theme === 'dark';

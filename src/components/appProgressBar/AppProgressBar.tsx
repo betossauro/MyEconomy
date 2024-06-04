@@ -6,6 +6,7 @@ import * as Progress from 'react-native-progress';
 import AppSubtitle from "../appSubtitle/AppSubtitle";
 import { useTheme } from '../../ThemeContext';
 import AppLabel from "../appLabel/AppLabel";
+import AppLabelNoBold from "../appLabel/AppLabelNoBold";
 
 interface AppProgressBarProps {
   progressLevel: number;
@@ -30,10 +31,10 @@ export default function AppProgressBar({ progressLevel, despesa, limite }: AppPr
 
   return (
     <View style={styles.container}>
-      <View style={{ width: 300, overflow: 'hidden' }}>
+      <View >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <AppLabel text={"Gastos:"} isDarkTheme={isDarkTheme}></AppLabel>
-          <AppLabel text={`R$${despesa}/R$${limite}`} isDarkTheme={isDarkTheme}></AppLabel>
+          <AppLabelNoBold text={`R$${despesa}/R$${limite}`} isDarkTheme={isDarkTheme}></AppLabelNoBold>
         </View>
         <Progress.Bar progress={progressLevel} borderRadius={10} height={20} width={300} color={color} borderWidth={1} />
       </View>

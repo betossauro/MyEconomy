@@ -8,6 +8,8 @@ interface AppTextFormProps {
   editable?: boolean;
   onChangeText?: (text: string) => void;
   isDarkTheme: boolean;
+  keyboardType?: "default" | "decimal-pad";
+  maxLength?: number;
 }
 
 export default function AppTextForm({
@@ -15,7 +17,9 @@ export default function AppTextForm({
   value,
   editable = true,
   onChangeText,
-  isDarkTheme
+  isDarkTheme,
+  keyboardType = "default",
+  maxLength
 }: AppTextFormProps) {
   return (
     <TextInput
@@ -25,6 +29,8 @@ export default function AppTextForm({
       placeholderTextColor="gray"
       style={[styles.input, isDarkTheme ? styles.darkInput : styles.lightInput]}
       onChangeText={onChangeText}
+      keyboardType={keyboardType}
+      maxLength={maxLength}
     />
   );
 }

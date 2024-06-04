@@ -22,7 +22,7 @@ export default function Expense({ navigation, route }: ExpenseProps) {
   const [id, setId] = useState(null);
   const [nome, setNome] = useState("");
   const [valor, setValor] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
 
   useEffect(() => {
     if(route && route.params != undefined){
@@ -55,7 +55,7 @@ export default function Expense({ navigation, route }: ExpenseProps) {
           setId(null);
           setNome("");
           setValor("");
-          setDate(new Date());
+          setDate(date);
           Alert.alert('Sucesso', 'Despesa atualizada!');
           handlePressHistorico
         })
@@ -68,7 +68,7 @@ export default function Expense({ navigation, route }: ExpenseProps) {
         .then((response) => {
           setNome("");
           setValor("");
-          setDate(new Date());
+          setDate(null);
           Alert.alert('Sucesso', 'Despesa cadastrada');
           handlePressHistorico
         })
@@ -98,14 +98,14 @@ export default function Expense({ navigation, route }: ExpenseProps) {
       </View>
       <View style={styles.buttons}>
         <AppTextForm
-          value={nome} onChangeText={setNome} placeholder="Digite sua despesa" isDarkTheme={isDarkTheme}/>
+          value={nome} onChangeText={setNome} placeholder="Digite sua despesa" maxLength={16} isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Valor" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextForm
-          value={valor} onChangeText={setValor} placeholder="Digite o valor" isDarkTheme={isDarkTheme}/>
+          value={valor} onChangeText={setValor} placeholder="Digite o valor" keyboardType="decimal-pad" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Mês" isDarkTheme={isDarkTheme}></AppLabel>

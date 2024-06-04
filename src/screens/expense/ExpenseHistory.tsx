@@ -63,9 +63,11 @@ export default function ExpenseHistory({ navigation }) {
           value={date} onChange={setDate} isDarkTheme={isDarkTheme} format='monthYear'/>
         <ScrollView style={[styles.itemContainer, { maxHeight: maxHeight }]}>
           {items.map((item, index) => (
-            <View key={index} style={[styles.item, { backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight, justifyContent: 'space-between', alignItems: 'center', }]}>
-              <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{item.descricao}</Text>
-              <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{`R$${item.valor}`}</Text>
+            <View key={index} style={[styles.item, { flexDirection: 'row', justifyContent: 'space-between', backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight, alignItems: 'center' }]}>
+              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20 }}>
+                <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{item.descricao}</Text>
+                <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{`R$${item.valor}`}</Text>
+              </View>
               <View style={styles.iconButtons}>
                 <TouchableOpacity style={[styles.iconButton, { backgroundColor: isDarkTheme ? Colors.inactiveDark : Colors.inactiveLight }]} onPress={() => handleEdit(item)}>
                   <Icon name="pencil" size={20} color={isDarkTheme ? Colors.fontLight : Colors.fontDark} />

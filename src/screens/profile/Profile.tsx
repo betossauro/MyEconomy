@@ -7,6 +7,7 @@ import AppButton from "../../components/appButton/AppButton";
 import AppLabel from "../../components/appLabel/AppLabel";
 import { useTheme } from '../../ThemeContext';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppLabelNoBold from "../../components/appLabel/AppLabelNoBold";
 
 export default function Profile({ navigation }) {
   const { isDarkTheme } = useTheme();
@@ -40,19 +41,19 @@ export default function Profile({ navigation }) {
           <AppLabel text="Nome" isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
-          <AppLabel text={nome} isDarkTheme={isDarkTheme}></AppLabel>
+          <AppLabelNoBold text={nome} isDarkTheme={isDarkTheme}></AppLabelNoBold>
         </View>
         <View style={styles.labelContainer}>
           <AppLabel text="Email" isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
-          <AppLabel text={email} isDarkTheme={isDarkTheme}></AppLabel>
+          <AppLabelNoBold text={email} isDarkTheme={isDarkTheme}></AppLabelNoBold>
         </View>
         <View style={styles.labelContainer}>
           <AppLabel text="Data de nascimento" isDarkTheme={isDarkTheme}></AppLabel>
         </View>
         <View style={styles.labelContainer}>
-          <AppLabel text={dataNascimento} isDarkTheme={isDarkTheme}></AppLabel>
+          <AppLabelNoBold text={dataNascimento} isDarkTheme={isDarkTheme}></AppLabelNoBold>
         </View>
         <View style={[styles.buttons, styles.margin]}>
           <AppButton text="Sair" isDarkTheme={isDarkTheme} onPress={handlePressSair}></AppButton>
