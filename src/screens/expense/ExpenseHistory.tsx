@@ -1,54 +1,51 @@
-import React, { useState, useEffect, useContext } from "react";
-import { ScrollView, TouchableOpacity, View, Dimensions, Text } from "react-native";
-import AppHeader from "../../components/appHeader/AppHeader";
-import avatar from '../../../assets/avatar.png';
-import Colors from "../../constant/Colors";
-import { styles } from "./ExpenseStyle";
-import AppLabel from "../../components/appLabel/AppLabel";
-import AppButton from "../../components/appButton/AppButton";
-import { useTheme } from '../../ThemeContext';
-import AppTextFormDate from "../../components/appTextForm/AppTextFormDate";
+import React, { useEffect, useState } from "react";
+import { Alert, Dimensions, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import avatar from '../../../assets/avatar.png';
+import { useTheme } from '../../ThemeContext';
+import AppHeader from "../../components/appHeader/AppHeader";
+import AppLabel from "../../components/appLabel/AppLabel";
+import AppTextFormDate from "../../components/appTextForm/AppTextFormDate";
+import Colors from "../../constant/Colors";
+import { excluirDespesa, getDespesasByMes } from "../../services/ExpenseService";
+import { formatDate } from "../../utils/DateFormatter";
+import { styles } from "./ExpenseStyle";
 
 export default function ExpenseHistory({ navigation }) {
   const { isDarkTheme } = useTheme();
   const [date, setDate] = useState(new Date());
+  const [items, setItems] = useState([]);
+
   const screenHeight = Dimensions.get('window').height;
-  const maxHeight = screenHeight * 0.67; 
-   // const [items, setItems] = useState([]);
-   const [items] = useState([
-    { name: 'Ifood', amount: 20 },
-    { name: 'Uber', amount: 12 },
-    { name: 'Ifood', amount: 20 },
-    { name: 'Uber', amount: 12 },
-    { name: 'Ifood', amount: 20 },
-    { name: 'Uber', amount: 12 },
-    { name: 'Ifood', amount: 20 },
-    { name: 'Uber', amount: 12 },
-    { name: 'Ifood', amount: 20 },
-    { name: 'Uber', amount: 12 },
-    { name: 'Ifood', amount: 20 },
-    { name: 'Uber', amount: 12 },
-    { name: 'Ifood', amount: 20 },
-    { name: 'Uber', amount: 12 },
-  ]);
+  const maxHeight = screenHeight * 0.67;
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await fetch('https://api.example.com/monthly-data');
-  //     const data = await response.json();
-  //     setItems(data);
-  //   };
+  const fetchData = async () => {
+    const data = formatDate(date);
+    await getDespesasByMes(data)
+      .then((response) => {
+        setItems(response.data);
+      })
+      .catch((error) => {
+        Alert.alert('Aviso', 'Ocorreu um erro ao buscar as despesas do mês');
+      });
+  };
 
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, [date]);
 
   function handleEdit(item) {
-    // code to handle edit
+    navigation.navigate('Despesas', {id: item.id})
   }
-  
-  function handleRemove(item) {
-    // code to handle remove
+
+  const handleRemove = async (item) => {
+    await excluirDespesa(item.id)
+    .then((response) => {
+      fetchData();
+    })
+    .catch((error) => {
+      Alert.alert('Aviso', 'Ocorreu um erro ao excluir a despesa selecionada');
+    });
   }
 
   return (
@@ -56,24 +53,24 @@ export default function ExpenseHistory({ navigation }) {
       ? { backgroundColor: Colors.bgDark }
       : { backgroundColor: Colors.bgLight }]}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40 }}>
-        <AppHeader nome="Histórico" isDarkTheme={isDarkTheme} avatar={avatar} navigation={navigation}/>
+        <AppHeader nome="Histórico" isDarkTheme={isDarkTheme} avatar={avatar} navigation={navigation} />
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Mês" isDarkTheme={isDarkTheme}></AppLabel>
       </View>
       <View style={styles.buttons}>
         <AppTextFormDate
-          value={date} onChange={setDate} isDarkTheme={isDarkTheme}/>
-          <ScrollView style={[styles.itemContainer, { maxHeight: maxHeight}]}>
+          value={date} onChange={setDate} isDarkTheme={isDarkTheme} format='monthYear'/>
+        <ScrollView style={[styles.itemContainer, { maxHeight: maxHeight }]}>
           {items.map((item, index) => (
-            <View key={index} style={[styles.item, {backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight, justifyContent: 'space-between', alignItems: 'center', }]}>
-              <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{item.name}</Text>
-              <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{`R$${item.amount}`}</Text>
+            <View key={index} style={[styles.item, { backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight, justifyContent: 'space-between', alignItems: 'center', }]}>
+              <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{item.descricao}</Text>
+              <Text style={[styles.itemText, { color: isDarkTheme ? Colors.fontLight : Colors.fontDark }]}>{`R$${item.valor}`}</Text>
               <View style={styles.iconButtons}>
-                <TouchableOpacity style={[styles.iconButton, {backgroundColor: isDarkTheme ? Colors.inactiveDark : Colors.inactiveLight}]} onPress={() => handleEdit(item)}>
+                <TouchableOpacity style={[styles.iconButton, { backgroundColor: isDarkTheme ? Colors.inactiveDark : Colors.inactiveLight }]} onPress={() => handleEdit(item)}>
                   <Icon name="pencil" size={20} color={isDarkTheme ? Colors.fontLight : Colors.fontDark} />
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.iconButton, {backgroundColor: isDarkTheme ? Colors.inactiveDark : Colors.inactiveLight}]} onPress={() => handleRemove(item)}>
+                <TouchableOpacity style={[styles.iconButton, { backgroundColor: isDarkTheme ? Colors.inactiveDark : Colors.inactiveLight }]} onPress={() => handleRemove(item)}>
                   <Icon name="trash" size={20} color={isDarkTheme ? Colors.fontLight : Colors.fontDark} />
                 </TouchableOpacity>
               </View>
@@ -84,4 +81,3 @@ export default function ExpenseHistory({ navigation }) {
     </View>
   );
 }
-  
