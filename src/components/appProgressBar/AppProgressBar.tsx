@@ -12,9 +12,10 @@ interface AppProgressBarProps {
   progressLevel: number;
   despesa: number;
   limite: number;
+  hasLimite?: boolean;
 }
 
-export default function AppProgressBar({ progressLevel, despesa, limite }: AppProgressBarProps) {
+export default function AppProgressBar({ progressLevel, despesa, limite, hasLimite }: AppProgressBarProps) {
   const { isDarkTheme } = useTheme();
   let color;
   if (progressLevel >= 0.0 && progressLevel <= 0.24) {
@@ -31,6 +32,7 @@ export default function AppProgressBar({ progressLevel, despesa, limite }: AppPr
 
   return (
     <View style={styles.container}>
+      {hasLimite && 
       <View >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <AppLabel text={"Gastos:"} isDarkTheme={isDarkTheme}></AppLabel>
@@ -38,6 +40,14 @@ export default function AppProgressBar({ progressLevel, despesa, limite }: AppPr
         </View>
         <Progress.Bar progress={progressLevel} borderRadius={10} height={20} width={300} color={color} borderWidth={1} />
       </View>
+      }
+      {!hasLimite && 
+      <View >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <AppLabel text={"Não foram encontrados dados para o mês selecionado"} isDarkTheme={isDarkTheme}></AppLabel>
+        </View>
+      </View>
+      }
     </View>
   );
 }

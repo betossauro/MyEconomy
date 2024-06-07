@@ -20,6 +20,7 @@ export default function Home({ navigation }) {
   const [despesa, setDespesa] = useState(0);
   const [progresso, setProgresso] = useState(0);    
   const [refreshing, setRefreshing] = useState(false);
+  const [hasLimite, setHasLimite] = useState(true);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -36,7 +37,8 @@ export default function Home({ navigation }) {
           setLimite(response.data.limite);
           setProgresso(response.data.progresso);
         } else {
-          Alert.alert('Aviso', 'Não foram encontrados dados para o mês selecionado');
+          // Alert.alert('Aviso', 'Não foram encontrados dados para o mês selecionado');
+          setHasLimite(false);
           setDespesa(0);
           setLimite(0);
           setProgresso(0);
@@ -73,8 +75,10 @@ export default function Home({ navigation }) {
           <View style={styles.buttons}>
             <AppTextFormDate value={date} onChange={handleChangeDate} isDarkTheme={isDarkTheme} format='monthYear' />
           </View>
-          <AppCard progressLevel={progresso} />
-          <AppProgressBar despesa={despesa} limite={limite} progressLevel={progresso / 100}></AppProgressBar>
+          <View style={{paddingHorizontal: 16}}>
+            <AppCard progressLevel={progresso} />
+            <AppProgressBar despesa={despesa} limite={limite} hasLimite={hasLimite} progressLevel={progresso / 100}></AppProgressBar>
+          </View>
         </View>
       </ScrollView>
     </View>
