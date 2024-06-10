@@ -6,7 +6,7 @@ import AppTextForm from "../../components/appTextForm/AppTextForm";
 import AppTitle from "../../components/appTitle/AppTitle";
 import Colors from "../../constant/Colors";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppButton from "../../components/appButton/AppButton";
 import AppTextFormPassword from "../../components/appTextForm/AppTextFormPassword";
 import AppLabel from "../../components/appLabel/AppLabel";
@@ -16,6 +16,7 @@ export default function Signin({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const theme = useColorScheme();
+  const [disabled, setDisabled] = useState(true);
   const isDarkTheme = theme === 'dark';
 
   const handleSignin = async () => {
@@ -27,7 +28,13 @@ export default function Signin({ navigation }) {
     }
   };
 
-  const isButtonDisabled = email != "" || senha != "";
+  useEffect(() => {
+    if(email != "" && senha != ""){
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [email, senha]);
 
   return (
     <View style={[styles.container, isDarkTheme
@@ -52,7 +59,7 @@ export default function Signin({ navigation }) {
           value={senha} onChangeText={setSenha} placeholder="Digite sua senha" isDarkTheme={isDarkTheme}
         />
         <AppLink navigation={navigation} route="Signup" text="Não possui conta? Crie agora." isDarkTheme={isDarkTheme} />
-        <AppButton text="Entrar" disabled={isButtonDisabled} isDarkTheme={isDarkTheme} onPress={handleSignin}/>
+        <AppButton text="Entrar" disabled={disabled} isDarkTheme={isDarkTheme} onPress={handleSignin}/>
       </View>
     </View>
   );

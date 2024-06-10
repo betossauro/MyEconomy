@@ -23,6 +23,7 @@ export default function Expense({ navigation, route }: ExpenseProps) {
   const [nome, setNome] = useState("");
   const [valor, setValor] = useState("");
   const [date, setDate] = useState(null);
+  const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
     if(route && route.params != undefined){
@@ -45,6 +46,14 @@ export default function Expense({ navigation, route }: ExpenseProps) {
       fetchExpense();
     }
   }, [id]);
+
+  useEffect(() => {
+    if(nome != "" && valor != "" && date != ""){
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [nome, valor, date]);
 
   const handlePressRegistrar = async () => {
     const mes = formatDate(date);
@@ -115,7 +124,7 @@ export default function Expense({ navigation, route }: ExpenseProps) {
           value={date} onChange={handleChangeDate} isDarkTheme={isDarkTheme} format='monthYear'/>
       </View>
       <View style={[styles.buttons, styles.margin]}>
-        <AppButton text={id != null ? "Atualizar" : "Registrar"} isDarkTheme={isDarkTheme} onPress={handlePressRegistrar}></AppButton>
+        <AppButton text={id != null ? "Atualizar" : "Registrar"} isDarkTheme={isDarkTheme} onPress={handlePressRegistrar} disabled={disabled}></AppButton>
         <AppButton text="Histórico" isDarkTheme={isDarkTheme} onPress={handlePressHistorico}></AppButton>
       </View>
     </View>

@@ -21,6 +21,7 @@ export default function Limit({ navigation, route }: ExpenseProps) {
   const [id, setId] = useState(null);
   const [valor, setValor] = useState("");
   const [date, setDate] = useState<Date>();
+  const [disabled, setDisabled] = useState(true);
   const { isDarkTheme } = useTheme();
 
   useEffect(() => {
@@ -43,6 +44,14 @@ export default function Limit({ navigation, route }: ExpenseProps) {
       fetchLimit();
     }
   }, [id]);
+
+  useEffect(() => {
+    if(valor != "" && date != null){
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [valor, date]);
 
   const handleChangeDate = (date: Date) => {
     setDate(date);
@@ -104,7 +113,7 @@ export default function Limit({ navigation, route }: ExpenseProps) {
           value={date} onChange={handleChangeDate} isDarkTheme={isDarkTheme} format={'monthYear'}/>
       </View>
       <View style={[styles.buttons, styles.margin]}>
-        <AppButton text={id != null ? "Atualizar" : "Registrar"} isDarkTheme={isDarkTheme} onPress={handlePressRegistrar}></AppButton>
+        <AppButton text={id != null ? "Atualizar" : "Registrar"} isDarkTheme={isDarkTheme} onPress={handlePressRegistrar} disabled={disabled}></AppButton>
         <AppButton text="Consultar" isDarkTheme={isDarkTheme} onPress={handlePressConsultar}></AppButton>
       </View>
     </View>
