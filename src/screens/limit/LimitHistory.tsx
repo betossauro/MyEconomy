@@ -86,6 +86,11 @@ export default function LimitHistory({ navigation }) {
             </View>
           ))}
         </ScrollView>
+        {items.length === 0 && (
+          <View >
+            <Text style={{ color: isDarkTheme ? Colors.fontDark : Colors.fontLight  }}>Nenhum dado encontrado.</Text>
+          </View>
+        )}
       </View>
     </View>
   );
