@@ -103,7 +103,7 @@ export default function Limit({ navigation, route }: ExpenseProps) {
       </View>
       <View style={styles.buttons}>
         <AppTextForm
-          value={valor} onChangeText={setValor} placeholder="Digite o valor" keyboardType="decimal-pad" isDarkTheme={isDarkTheme}/>
+          value={valor} onChangeText={setValor} placeholder="Digite o valor" keyboardType="decimal-pad" returnKeyType="done" isDarkTheme={isDarkTheme}/>
       </View>
       <View style={styles.labelContainer}>
         <AppLabel text="Mês" isDarkTheme={isDarkTheme}></AppLabel>
