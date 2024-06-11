@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useFocusEffect } from '@react-navigation/native';
 import { Alert, View } from "react-native";
 import avatar from '../../../assets/avatar.png';
 import { useTheme } from '../../ThemeContext';
@@ -56,6 +57,16 @@ export default function Limit({ navigation, route }: ExpenseProps) {
   const handleChangeDate = (date: Date) => {
     setDate(date);
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setId(null);
+        setValor(""); 
+        setDate(null); 
+      };
+    }, []) 
+  );
 
   const handlePressRegistrar = async () => {
     const mes = formatDate(date);
