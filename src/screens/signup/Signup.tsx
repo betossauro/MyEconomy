@@ -1,4 +1,4 @@
-import { View, Text, Button, Alert, useColorScheme } from "react-native";
+import { View, Text, ScrollView, Alert, useColorScheme } from "react-native";
 import { styles } from "./SignupStyle";
 import AppTitle from "../../components/appTitle/AppTitle";
 import AppTextForm from "../../components/appTextForm/AppTextForm";
@@ -41,6 +41,7 @@ export default function Signup({ navigation }) {
 
   const isButtonDisabled = !nome || !email || !senha || !confirmacaoSenha;
   return (
+    <ScrollView keyboardShouldPersistTaps='handled'>
     <View style={[styles.container, isDarkTheme
       ? { backgroundColor: Colors.bgDark }
       : { backgroundColor: Colors.bgLight }]}>
@@ -86,5 +87,6 @@ export default function Signup({ navigation }) {
         <AppButton text="Cadastrar" disabled={isButtonDisabled} isDarkTheme={isDarkTheme} onPress={handleSignup}></AppButton>
       </View>
     </View>
+    </ScrollView>
   );
 }

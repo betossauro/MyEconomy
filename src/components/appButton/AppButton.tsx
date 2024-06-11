@@ -18,7 +18,7 @@ export default function AppButton({ text, onPress, isDarkTheme, disabled }: AppB
 
   return (
     <Pressable disabled={disabled} onPress={handlePress} style={[styles.container, isDarkTheme ? styles.darkButton : styles.lightButton, disabled ? { opacity: 0.5 } : { opacity: 1 }]}>
-      <Text style={[styles.text, isDarkTheme ? styles.darkButton : styles.lightButton]}>{text}</Text>
+      <Text style={[styles.text]}>{text}</Text>
     </Pressable>
   );
 }

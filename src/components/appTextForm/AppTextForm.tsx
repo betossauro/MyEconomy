@@ -9,6 +9,7 @@ interface AppTextFormProps {
   onChangeText?: (text: string) => void;
   isDarkTheme: boolean;
   keyboardType?: "default" | "decimal-pad";
+  returnKeyType?: "done"
   maxLength?: number;
 }
 
@@ -19,6 +20,7 @@ export default function AppTextForm({
   onChangeText,
   isDarkTheme,
   keyboardType = "default",
+  returnKeyType,
   maxLength
 }: AppTextFormProps) {
   return (
@@ -30,6 +32,7 @@ export default function AppTextForm({
       style={[styles.input, isDarkTheme ? styles.darkInput : styles.lightInput]}
       onChangeText={onChangeText}
       keyboardType={keyboardType}
+      returnKeyType={returnKeyType}
       maxLength={maxLength}
     />
   );
