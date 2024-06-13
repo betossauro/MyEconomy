@@ -33,6 +33,7 @@ export default function Home({ navigation }) {
     await progressoMes(mes)
       .then((response) => {
         if (response.data != null) {
+          setHasLimite(true);
           setDespesa(response.data.gasto);
           setLimite(response.data.limite);
           setProgresso(response.data.progresso);
