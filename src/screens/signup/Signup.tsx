@@ -41,7 +41,9 @@ export default function Signup({ navigation }) {
 
   const isButtonDisabled = !nome || !email || !senha || !confirmacaoSenha;
   return (
-    <ScrollView keyboardShouldPersistTaps='handled'>
+    <ScrollView style={[isDarkTheme
+      ? { backgroundColor: Colors.bgDark }
+      : { backgroundColor: Colors.bgLight }]} keyboardShouldPersistTaps='handled'>
     <View style={[styles.container, isDarkTheme
       ? { backgroundColor: Colors.bgDark }
       : { backgroundColor: Colors.bgLight }]}>
