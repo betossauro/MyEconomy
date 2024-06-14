@@ -62,12 +62,7 @@ export default function LimitHistory({ navigation }) {
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 60 }}>
         <AppHeader nome="Consulta" isDarkTheme={isDarkTheme} avatar={avatar} navigation={navigation} />
       </View>
-      <View style={styles.labelContainer}>
-        <AppLabel text="Mês" isDarkTheme={isDarkTheme}></AppLabel>
-      </View>
       <View style={styles.buttons}>
-        <AppTextFormDate
-          value={date} onChange={setDate} isDarkTheme={isDarkTheme} format={'monthYear'}/>
         <ScrollView style={styles.itemContainer}>
           {items.map((item, index) => (
             <View key={index} style={[styles.item, { flexDirection: 'row', justifyContent: 'space-between', backgroundColor: isDarkTheme ? Colors.mainDark : Colors.mainLight, alignItems: 'center' }]}>
